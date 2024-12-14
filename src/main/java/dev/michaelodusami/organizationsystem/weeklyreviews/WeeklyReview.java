@@ -2,10 +2,10 @@ package dev.michaelodusami.organizationsystem.weeklyreviews;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.GenerationType;
+//import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,13 +18,13 @@ import lombok.ToString;
 @Getter
 @Setter 
 @ToString
-@Entity
+//@Entity
 public class WeeklyReview {
     
     // some ids (for self, and for installation)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  //  @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private Long id;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String review;

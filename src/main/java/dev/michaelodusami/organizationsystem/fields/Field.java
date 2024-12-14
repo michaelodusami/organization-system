@@ -1,6 +1,4 @@
 package dev.michaelodusami.organizationsystem.fields;
-
-import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -11,7 +9,6 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-@Entity
 public class Field {
 
     public enum Type {

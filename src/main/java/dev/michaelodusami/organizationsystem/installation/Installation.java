@@ -8,7 +8,6 @@ import java.util.List;
 
 import dev.michaelodusami.organizationsystem.fields.Field;
 import dev.michaelodusami.organizationsystem.weeklyreviews.WeeklyReview;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +19,6 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@Entity
 @ToString
 public class Installation {
 
@@ -30,7 +28,7 @@ public class Installation {
 
     private String repair;
 
-    @ElementCollection
+   // @ElementCollection
     private List<String> outcome;
 
     private LocalDate repairStartDate;
@@ -39,7 +37,7 @@ public class Installation {
     // @Transient
     private long daysBetweenStartAndEnd;
 
-    @ElementCollection
+   // @ElementCollection
     private List<String> plan;
 
     // @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
