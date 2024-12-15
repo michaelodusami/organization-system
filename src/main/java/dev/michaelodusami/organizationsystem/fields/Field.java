@@ -38,10 +38,8 @@ public class Field {
             this.type = type;
             this.value = value;
         } catch (IllegalArgumentException exception) {
-            System.err.println("Error: " + exception.getMessage());
             throw exception; // Re-throw to allow the caller to handle it if needed.
         } catch (Exception exception) {
-            System.err.println("Unexpected error: " + exception.getMessage());
             throw new RuntimeException("Unexpected error occurred.", exception);
         }
     }
