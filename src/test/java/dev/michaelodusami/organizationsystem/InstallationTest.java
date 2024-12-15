@@ -1,12 +1,16 @@
 package dev.michaelodusami.organizationsystem;
 
+import dev.michaelodusami.organizationsystem.fields.ColumnType;
 import dev.michaelodusami.organizationsystem.fields.Field;
+import dev.michaelodusami.organizationsystem.fields.FieldColumn;
 import dev.michaelodusami.organizationsystem.installation.Installation;
 import dev.michaelodusami.organizationsystem.weeklyreviews.WeeklyReview;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,14 +63,16 @@ public class InstallationTest {
     }
 
     @Test
-    public void testAddFieldForTracking() {
-        Field field = new Field(Field.Type.TEXT, "Initial Typing Speed");
-        installation.addFieldForTracking(field);
+    public void testAddFieldForTracking_NewColumn() {
+        FieldColumn column = new FieldColumn("Test Column", ColumnType.TEXT);
+        Field field = new Field(ColumnType.TEXT, "Sample Value");
 
-        assertEquals(1, installation.getFieldsForTracking().size());
-        assertEquals("Initial Typing Speed", installation.getFieldsForTracking().get(0).getValue());
-       
+        installation.addFieldForTracking(column, field);
+
+        assertTrue(installation.getFieldsForTracking().containsKey(column));
+        assertEquals(1, installation.getFieldsForTracking().get(column).size()); // Ensure logic execution safely.
     }
+   
 
     @Test
     public void testAddPlanItem() {
