@@ -4,7 +4,9 @@ package dev.michaelodusami.organizationsystem.installation;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import dev.michaelodusami.organizationsystem.fields.Field;
+import dev.michaelodusami.organizationsystem.fields.FieldColumn;
 import dev.michaelodusami.organizationsystem.weeklyreviews.WeeklyReview;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,7 +46,7 @@ public class Installation {
 
     private List<WeeklyReview> weeklyReviews;
 
-    private List<Field> fieldsForTracking;
+    private Map<FieldColumn, List<Field>> fieldsForTracking;
     
     /**
      * Creates an Installation object with essential fields using JSON deserialization.
@@ -59,7 +62,7 @@ public class Installation {
     public Installation(@JsonProperty("repair") String repair,
                         @JsonProperty("repairStartDate") LocalDate repairStartDate,
                         @JsonProperty("repairEndDate") LocalDate repairEndDate) {
-        this(repair, repairStartDate, repairEndDate, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        this(repair, repairStartDate, repairEndDate, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>());
     }
 
     /**
@@ -77,14 +80,14 @@ public class Installation {
      * @param fieldsForTracking the list of fields being tracked during the repair process.
      */
     public Installation(String repair, LocalDate repairStartDate, LocalDate repairEndDate,
-                         List<String> plan, List<String> outcome, List<WeeklyReview> weeklyReviews, List<Field> fieldsForTracking) {
+                         List<String> plan, List<String> outcome, List<WeeklyReview> weeklyReviews,  Map<FieldColumn, List<Field>> fieldsForTracking) {
         this.repair = repair;
         this.outcome = (outcome != null) ? outcome : new ArrayList<>();
         this.repairStartDate = repairStartDate;
         this.repairEndDate = repairEndDate;
         this.plan = (plan != null) ? plan : new ArrayList<>();
         this.weeklyReviews = (weeklyReviews != null) ? weeklyReviews : new ArrayList<>();
-        this.fieldsForTracking = (fieldsForTracking != null) ? fieldsForTracking : new ArrayList<>();
+        this.fieldsForTracking = (fieldsForTracking != null) ? fieldsForTracking : new HashMap<>();
         calculateDaysBetween();
     }
 
@@ -101,13 +104,17 @@ public class Installation {
 
     /**
      * Adds a field to the list of fields for tracking.
-     * @param field the field to add.
+     * @param column the column to add the field to
+     * @param field the field to add
      */
-    public void addFieldForTracking(Field field) {
-        if (this.fieldsForTracking == null) {
-            this.fieldsForTracking = new ArrayList<>();
+    public void addFieldForTracking(FieldColumn column, Field field) {
+        // Validate the field's type against the column's type first
+        if (!field.validateType(column.getType(), field.getValue())) {
+            throw new IllegalArgumentException("Field type does not match column type.");
         }
-        this.fieldsForTracking.add(field);
+
+        // Add field to the list for the column
+        fieldsForTracking.computeIfAbsent(column, key -> new ArrayList<>()).add(field);
     }
 
     /**
