@@ -8,6 +8,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import dev.michaelodusami.organizationsystem.fields.Field;
 import dev.michaelodusami.organizationsystem.weeklyreviews.WeeklyReview;
 import lombok.Getter;
@@ -50,14 +53,42 @@ public class Installation {
 
     // @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Field> fieldsForTracking;
-
-
-    public Installation(String repair, LocalDate repairStartDate, LocalDate repairEndDate) {
-        this(repair, new ArrayList<>(), repairStartDate, repairEndDate, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    
+    /**
+     * Creates an Installation object with essential fields using JSON deserialization.
+     * <p>
+     * This constructor is designed to be used by Jackson during the deserialization of JSON data
+     * into an Installation object. It initializes the required fields and provides default values
+     * for optional lists.
+     *
+     * @param repair            the description of the repair being tracked.
+     * @param repairStartDate   the start date of the repair.
+     * @param repairEndDate     the end date of the repair.
+     */
+    @JsonCreator
+    public Installation(@JsonProperty("repair") String repair,
+                        @JsonProperty("repairStartDate") LocalDate repairStartDate,
+                        @JsonProperty("repairEndDate") LocalDate repairEndDate) {
+        this(repair, repairStartDate, repairEndDate, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
-    public Installation(String repair, List<String> outcome, LocalDate repairStartDate, LocalDate repairEndDate,
-                         List<String> plan, List<WeeklyReview> weeklyReviews, List<Field> fieldsForTracking) {
+    /**
+     * Creates an Installation object with all fields initialized.
+     * <p>
+     * This constructor provides full flexibility to initialize all fields of the Installation object.
+     * If any of the list parameters are null, they are replaced with empty lists to avoid NullPointerException.
+     * The days between the start and end dates are calculated automatically.
+     *
+     * @param repair            the description of the repair being tracked.
+     * @param repairStartDate   the start date of the repair.
+     * @param repairEndDate     the end date of the repair.
+     * @param plan              the list of steps or plans associated with the repair process.
+     * @param outcome           the list of outcomes from the repair process.
+     * @param weeklyReviews     the list of weekly reviews tracking the repair progress.
+     * @param fieldsForTracking the list of fields being tracked during the repair process.
+     */
+    public Installation(String repair, LocalDate repairStartDate, LocalDate repairEndDate,
+                         List<String> plan, List<String> outcome, List<WeeklyReview> weeklyReviews, List<Field> fieldsForTracking) {
         this.repair = repair;
         this.outcome = (outcome != null) ? outcome : new ArrayList<>();
         this.repairStartDate = repairStartDate;
