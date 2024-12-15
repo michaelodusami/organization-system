@@ -30,33 +30,23 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Installation {
 
-   // @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
-   // private Long id;
-
     private String repair;
 
-   // @ElementCollection
     private List<String> outcome;
 
     private LocalDate repairStartDate;
     private LocalDate repairEndDate;
 
-    // @Transient
     private long daysBetweenStartAndEnd;
 
-   // @ElementCollection
     private List<String> plan;
 
-    // @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WeeklyReview> weeklyReviews;
 
-    // @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Field> fieldsForTracking;
     
     /**
      * Creates an Installation object with essential fields using JSON deserialization.
-     * <p>
      * This constructor is designed to be used by Jackson during the deserialization of JSON data
      * into an Installation object. It initializes the required fields and provides default values
      * for optional lists.
@@ -74,7 +64,6 @@ public class Installation {
 
     /**
      * Creates an Installation object with all fields initialized.
-     * <p>
      * This constructor provides full flexibility to initialize all fields of the Installation object.
      * If any of the list parameters are null, they are replaced with empty lists to avoid NullPointerException.
      * The days between the start and end dates are calculated automatically.

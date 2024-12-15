@@ -23,10 +23,6 @@ import lombok.ToString;
 @Component
 public class WeeklyReview {
     
-    // some ids (for self, and for installation)
-  //  @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //private Long id;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String review;
