@@ -9,11 +9,12 @@ package dev.michaelodusami.organizationsystem.installation;
  * @version (v1) 2024.12.14
  */
 import dev.michaelodusami.organizationsystem.fields.Field;
+import dev.michaelodusami.organizationsystem.fields.FieldColumn;
+import dev.michaelodusami.organizationsystem.fields.FieldRequestBody;
 import dev.michaelodusami.organizationsystem.weeklyreviews.WeeklyReview;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,12 +126,14 @@ public class InstallationController {
      * @return the updated Installation
      */
     @PostMapping("/{index}/fields")
-    public ResponseEntity<Installation> addFieldToInstallation(@PathVariable int index, @RequestBody Field field) {
+    public ResponseEntity<Installation> addFieldToInstallation(@PathVariable int index, @RequestBody FieldRequestBody field) {
         if (index < 0 || index >= installationRepository.size()) {
             return ResponseEntity.notFound().build();
         }
         Installation installation = installationRepository.get(index);
-        installation.addFieldForTracking(field);
+        FieldColumn column = new FieldColumn(field.getTitle(), field.getColumnType());
+        Field tempField = new Field(field.getColumnType(), field.getValue());
+        installation.addFieldForTracking(column, tempField);
         return ResponseEntity.ok(installation);
     }
 }
