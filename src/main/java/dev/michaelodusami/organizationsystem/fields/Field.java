@@ -150,7 +150,7 @@ public class Field {
      * @param value the value of the field.
      * @return true if the value is valid for the type, false otherwise.
      */
-    private boolean validateType(ColumnType type, Object value) {
+    public boolean validateType(ColumnType type, Object value) {
         if (value == null) {
             return true; // Null values can be allowed.
         }
