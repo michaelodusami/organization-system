@@ -1,7 +1,9 @@
 package dev.michaelodusami.organizationsystem.fields;
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -9,16 +11,13 @@ import lombok.ToString;
  * @author Michael-Andre Odusami 
  * @version (v1) 2024.12.14
  */
-@Getter
+@NoArgsConstructor
 @ToString
+@Data
 @Component
 public class Field {
 
-    public enum Type {
-        TEXT, NUMBER, PERCENTAGE, CURRENCY, DATE, UNCATEGORIZED
-    }
-
-    private Type type;
+    private ColumnType type;
     private Object value;
 
     /**
@@ -27,7 +26,7 @@ public class Field {
      * @param value the value of the field.
      * @throws IllegalArgumentException if the value does not match the type.
      */
-    public Field(Type type, Object value) {
+    public Field(ColumnType type, Object value) {
         try {  
             if (type == null) {
                 throw new IllegalArgumentException("Type cannot be null.");
@@ -67,7 +66,7 @@ public class Field {
      * @param type the new type to set.
      * @throws IllegalArgumentException if the current value cannot be converted to the new type.
      */
-    public void setType(Type type) {
+    public void setType(ColumnType type) {
         if (type == null) {
             throw new IllegalArgumentException("Type cannot be null.");
         }
@@ -90,7 +89,7 @@ public class Field {
      * @return the converted value.
      * @throws IllegalArgumentException if conversion is not possible.
      */
-    private Object convertValue(Type type, Object value) throws IllegalArgumentException {
+    private Object convertValue(ColumnType type, Object value) throws IllegalArgumentException {
         if (value == null) {
             return null; // Null values can remain null.
         }
@@ -133,7 +132,7 @@ public class Field {
      * Gets the type of the field
      * @return the type of the field
      */
-    public Type getType() {
+    public ColumnType getType() {
         return type;
     }
 
@@ -151,7 +150,7 @@ public class Field {
      * @param value the value of the field.
      * @return true if the value is valid for the type, false otherwise.
      */
-    private boolean validateType(Type type, Object value) {
+    private boolean validateType(ColumnType type, Object value) {
         if (value == null) {
             return true; // Null values can be allowed.
         }
