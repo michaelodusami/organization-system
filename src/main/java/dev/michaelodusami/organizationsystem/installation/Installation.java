@@ -6,9 +6,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import dev.michaelodusami.organizationsystem.fields.Field;
 import dev.michaelodusami.organizationsystem.weeklyreviews.WeeklyReview;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,9 +20,11 @@ import lombok.ToString;
  * @author Michael-Andre Odusami
  * @version (v1) 2024.12.14
  */
+@Component
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class Installation {
 
    // @Id

@@ -1,4 +1,6 @@
 package dev.michaelodusami.organizationsystem.fields;
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.ToString;
 
@@ -9,6 +11,7 @@ import lombok.ToString;
  */
 @Getter
 @ToString
+@Component
 public class Field {
 
     public enum Type {
